@@ -150,6 +150,7 @@
             font-family: 'Gotham', sans-serif;
             font-weight: 700;
             font-size: 22px;
+            text-align: center;
             color: #fff;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -167,7 +168,11 @@
         /* ── FORM SECTION ── */
         .form-section {
             background: var(--dark);
-            border-top: 1px solid var(--gold);
+            /* text-align: center; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
         .form-group {
@@ -502,6 +507,70 @@
             color: #b44;
         }
 
+        /* ── CAROUSEL ── */
+        .carousel {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin: 0 auto 28px;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border: none;
+            outline: none;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+            border: none;
+            outline: none;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 7px;
+            z-index: 2;
+        }
+
+        .carousel-dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(196, 171, 75, 0.35);
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 0;
+            transition: background 0.25s, width 0.25s;
+            flex-shrink: 0;
+        }
+
+        .carousel-dot.active {
+            background: var(--gold);
+            width: 20px;
+        }
+
         /* ── SCROLLBAR ── */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #000; }
@@ -511,9 +580,9 @@
 <body>
 
     <!-- HEADER -->
-    <header>
+    <!-- <header>
         <img src="logo.png" alt="Rock&Feller's">
-    </header>
+    </header> -->
 
     <!-- HERO -->
     <div class="hero">
@@ -560,6 +629,18 @@
         <h2 class="section-title">¿No recibiste<br>un regalo?</h2>
         <div class="section-divider" style="margin: 0 auto 28px;"></div>
         <p>Enviale un mensaje a la persona que te debe una R&F Gift Card.</p>
+        <div class="carousel" data-carousel>
+            <div class="carousel-track">
+                <div class="carousel-slide"><img src="Gift Card.png" alt=""></div>
+                <div class="carousel-slide"><img src="Gift Card.png" alt=""></div>
+                <div class="carousel-slide"><img src="Gift Card.png" alt=""></div>
+            </div>
+            <div class="carousel-dots">
+                <button class="carousel-dot active" aria-label="Imagen 1"></button>
+                <button class="carousel-dot" aria-label="Imagen 2"></button>
+                <button class="carousel-dot" aria-label="Imagen 3"></button>
+            </div>
+        </div>
         <a class="btn-outline"
            href="https://wa.me/?text=Me%20debes%20una%20giftcard%20de%20Rock%26Feller%27s%20%F0%9F%8E%81"
            target="_blank" rel="noopener">
@@ -576,6 +657,18 @@
         <h2 class="section-title">R&F Shop</h2>
         <div class="section-divider" style="margin: 0 auto 28px;"></div>
         <p>Conseguí todo sobre Rock&Feller's</p>
+        <div class="carousel" data-carousel>
+            <div class="carousel-track">
+                <div class="carousel-slide"><img src="carousel-shop-1.jpg" alt=""></div>
+                <div class="carousel-slide"><img src="carousel-shop-2.jpg" alt=""></div>
+                <div class="carousel-slide"><img src="carousel-shop-3.jpg" alt=""></div>
+            </div>
+            <div class="carousel-dots">
+                <button class="carousel-dot active" aria-label="Imagen 1"></button>
+                <button class="carousel-dot" aria-label="Imagen 2"></button>
+                <button class="carousel-dot" aria-label="Imagen 3"></button>
+            </div>
+        </div>
         <a href="https://rockandfellers.com.ar" target="_blank" rel="noopener" class="btn-shop">
             Visitar tienda
         </a>
@@ -589,9 +682,8 @@
         <p class="footer-title">Sobre Rock&Feller's</p>
         <p class="footer-text">Rock&Feller's nace del espíritu emprendedor de sus fundadores, que soñaron un moderno restaurant y bar americano con un ambiente casual, cómodo y divertido. Un lugar único que combina gastronomía, arquitectura, tecnología y música con la mística del rock and roll.</p>
         <div class="footer-bottom">
-            <p class="footer-title">Reservas</p>
             <a href="https://rockandfellers.com.ar" target="_blank" rel="noopener" class="footer-reservas-link">
-                Reservá en Rock&Feller's →
+                Reservá en Rock&Feller's
             </a>
             <p class="footer-copy">© 2026 Rock&Feller's. Todos los derechos reservados.</p>
         </div>
@@ -666,6 +758,47 @@
                 this.classList.remove('invalid');
                 document.getElementById('checkbox-wrap').classList.remove('invalid');
             });
+        });
+
+        // Carousel
+        document.querySelectorAll('[data-carousel]').forEach(function(el) {
+            var track = el.querySelector('.carousel-track');
+            var dots = el.querySelectorAll('.carousel-dot');
+            var total = dots.length;
+            var current = 0;
+            var startX = 0;
+            var timer;
+
+            function goTo(n) {
+                current = (n % total + total) % total;
+                track.style.transform = 'translateX(-' + (current * 100) + '%)';
+                dots.forEach(function(dot, i) {
+                    dot.classList.toggle('active', i === current);
+                });
+            }
+
+            function startAuto() {
+                timer = setInterval(function() { goTo(current + 1); }, 3500);
+            }
+
+            function stopAuto() { clearInterval(timer); }
+
+            dots.forEach(function(dot, i) {
+                dot.addEventListener('click', function() { stopAuto(); goTo(i); startAuto(); });
+            });
+
+            el.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+                stopAuto();
+            }, { passive: true });
+
+            el.addEventListener('touchend', function(e) {
+                var diff = startX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+                startAuto();
+            }, { passive: true });
+
+            startAuto();
         });
     </script>
 </body>
