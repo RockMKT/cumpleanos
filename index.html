@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock&Feller's — Beneficio de Cumpleaños</title>
+    <style>
+        @font-face {
+            font-family: 'Gotham';
+            src: url('Gotham-Book.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Gotham';
+            src: url('Gotham-Bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #c4ab4b;
+            --gold-hover: #d6bc5a;
+            --black: #000000;
+            --dark: #0a0a0a;
+            --border: #1e1e1e;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Gotham', sans-serif;
+            font-weight: 400;
+            background-color: var(--black);
+            color: #fff;
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* ── HEADER ── */
+        header {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            z-index: 200;
+            backdrop-filter: blur(16px) brightness(0.7);
+            -webkit-backdrop-filter: blur(16px) brightness(0.7);
+            background: rgba(0, 0, 0, 0.25);
+            padding: 14px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid rgba(196, 171, 75, 0.2);
+        }
+
+        header img {
+            height: 44px;
+            object-fit: contain;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            height: 100svh;
+            min-height: 580px;
+            background-image: url('hero.png');
+            background-size: cover;
+            background-position: center top;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0) 30%,
+                rgba(0,0,0,0.55) 60%,
+                rgba(0,0,0,0.92) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 24px 52px;
+            width: 100%;
+        }
+
+        .hero-star {
+            display: block;
+            color: var(--gold);
+            font-size: 20px;
+            margin-bottom: 10px;
+            letter-spacing: 0;
+        }
+
+        .hero h1 {
+            font-family: 'Gotham', sans-serif;
+            font-weight: 700;
+            font-size: clamp(48px, 14vw, 64px);
+            color: var(--gold);
+            line-height: 0.95;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 span {
+            display: block;
+        }
+
+        .hero-rule {
+            width: 56px;
+            height: 2px;
+            background: var(--gold);
+            margin: 18px auto 0;
+        }
+
+        /* ── SHARED SECTION STYLES ── */
+        section {
+            padding: 44px 24px;
+        }
+
+        .section-label {
+            font-family: 'Gotham', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-family: 'Gotham', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.15;
+            margin-bottom: 24px;
+        }
+
+        .section-divider {
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
+            margin-bottom: 28px;
+        }
+
+        /* ── FORM SECTION ── */
+        .form-section {
+            background: var(--dark);
+            border-top: 1px solid var(--gold);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 7px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="date"] {
+            width: 100%;
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-bottom: 1px solid #444;
+            color: #fff;
+            padding: 13px 14px;
+            font-family: 'Gotham', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            color-scheme: dark;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-group input::placeholder {
+            color: #444;
+        }
+
+        .form-group input:focus {
+            border-color: var(--gold);
+            background: #141414;
+        }
+
+        .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.4) sepia(1) saturate(2) hue-rotate(5deg);
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            accent-color: var(--gold);
+            margin-top: 1px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 12px;
+            color: #777;
+            line-height: 1.6;
+            cursor: pointer;
+        }
+
+        .checkbox-group a {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 17px;
+            font-family: 'Gotham', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: block;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:active {
+            background: var(--gold-hover);
+        }
+
+        /* ── WHATSAPP SECTION ── */
+        .whatsapp-section {
+            background: var(--black);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .whatsapp-section .section-title {
+            font-size: 18px;
+        }
+
+        .whatsapp-section p {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 28px;
+            line-height: 1.7;
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 15px 28px;
+            font-family: 'Gotham', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-outline:hover,
+        .btn-outline:active {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .btn-outline svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* ── SHOP SECTION ── */
+        .shop-section {
+            background: var(--dark);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .shop-section p {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 28px;
+            line-height: 1.7;
+        }
+
+        .btn-shop {
+            display: inline-block;
+            background: var(--gold);
+            color: #000;
+            padding: 17px 36px;
+            font-family: 'Gotham', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-shop:hover,
+        .btn-shop:active {
+            background: var(--gold-hover);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #000;
+            border-top: 1px solid var(--gold);
+            padding: 44px 24px 36px;
+        }
+
+        .footer-logo-wrap {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .footer-logo-wrap img {
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .footer-title {
+            font-family: 'Gotham', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 12px;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 32px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 28px;
+        }
+
+        .footer-reservas-link {
+            display: inline-block;
+            color: var(--gold);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin-bottom: 16px;
+            transition: opacity 0.2s;
+        }
+
+        .footer-reservas-link:hover {
+            opacity: 0.75;
+        }
+
+        .footer-copy {
+            font-size: 10px;
+            color: #333;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            z-index: 500;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--dark);
+            border: 1px solid var(--gold);
+            padding: 44px 32px;
+            text-align: center;
+            max-width: 360px;
+            width: 100%;
+            animation: modalIn 0.25s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-star {
+            font-size: 36px;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 18px;
+        }
+
+        .modal h2 {
+            font-family: 'Gotham', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--gold);
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .modal p {
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.75;
+            margin-bottom: 32px;
+        }
+
+        .modal p strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .modal-rule {
+            width: 36px;
+            height: 1px;
+            background: var(--gold);
+            margin: 0 auto 32px;
+        }
+
+        .modal-close {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 15px 36px;
+            font-family: 'Gotham', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--gold-hover);
+        }
+
+        /* ── VALIDATION STATES ── */
+        .form-group input.invalid {
+            border-color: #b44;
+        }
+
+        .checkbox-group.invalid label {
+            color: #b44;
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <img src="logo.png" alt="Rock&Feller's">
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+            <span class="hero-star">★</span>
+            <h1>
+                <span>HAPPY</span>
+                <span>BIRTHDAY!</span>
+            </h1>
+            <div class="hero-rule"></div>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <section class="form-section">
+        <p class="section-label">Beneficio de cumpleañero</p>
+        <h2 class="section-title">Disfrutá de una <br>small chocotorta R&F</h2>
+        <div class="section-divider"></div>
+        <form id="birthday-form" novalidate>
+            <div class="form-group">
+                <label for="nombre">Nombre y Apellido</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha">Fecha de Cumpleaños</label>
+                <input type="date" id="fecha" name="fecha" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+            </div>
+            <div class="checkbox-group" id="checkbox-wrap">
+                <input type="checkbox" id="terminos" name="terminos" required>
+                <label for="terminos">Acepto los <a href="#">términos y condiciones</a> y la política de privacidad de Rock&Feller's.</label>
+            </div>
+            <button type="submit" class="btn-primary">Accedé a tu obsequio</button>
+        </form>
+    </section>
+
+    <!-- WHATSAPP -->
+    <section class="whatsapp-section">
+        <p class="section-label">Regalo pendiente</p>
+        <h2 class="section-title">¿No recibiste<br>un regalo?</h2>
+        <div class="section-divider" style="margin: 0 auto 28px;"></div>
+        <p>Enviale un mensaje a la persona que te debe una R&F Gift Card.</p>
+        <a class="btn-outline"
+           href="https://wa.me/?text=Me%20debes%20una%20giftcard%20de%20Rock%26Feller%27s%20%F0%9F%8E%81"
+           target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Enviar mensaje
+        </a>
+    </section>
+
+    <!-- SHOP -->
+    <section class="shop-section">
+        <p class="section-label">Tienda oficial</p>
+        <h2 class="section-title">R&F Shop</h2>
+        <div class="section-divider" style="margin: 0 auto 28px;"></div>
+        <p>Conseguí todo sobre Rock&Feller's</p>
+        <a href="https://rockandfellers.com.ar" target="_blank" rel="noopener" class="btn-shop">
+            Visitar tienda
+        </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo-wrap">
+            <img src="logo.png" alt="Rock&Feller's">
+        </div>
+        <p class="footer-title">Sobre Rock&Feller's</p>
+        <p class="footer-text">Rock&Feller's nace del espíritu emprendedor de sus fundadores, que soñaron un moderno restaurant y bar americano con un ambiente casual, cómodo y divertido. Un lugar único que combina gastronomía, arquitectura, tecnología y música con la mística del rock and roll.</p>
+        <div class="footer-bottom">
+            <p class="footer-title">Reservas</p>
+            <a href="https://rockandfellers.com.ar" target="_blank" rel="noopener" class="footer-reservas-link">
+                Reservá en Rock&Feller's →
+            </a>
+            <p class="footer-copy">© 2026 Rock&Feller's. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal">
+            <span class="modal-star">★</span>
+            <h2 id="modal-title">Happy Birthday!</h2>
+            <div class="modal-rule"></div>
+            <p>Te obsequiamos una <strong>small chocotorta</strong> para que disfrutes de tu día especial. Notifica a tu camarero.</p>
+            <button class="modal-close" id="modal-close-btn">¡Muchas gracias!</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('birthday-form');
+        const modal = document.getElementById('modal');
+        const closeBtn = document.getElementById('modal-close-btn');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let valid = true;
+
+            const nombre = document.getElementById('nombre');
+            const fecha = document.getElementById('fecha');
+            const email = document.getElementById('email');
+            const terminos = document.getElementById('terminos');
+            const checkboxWrap = document.getElementById('checkbox-wrap');
+
+            [nombre, fecha, email].forEach(function(input) {
+                if (!input.value.trim()) {
+                    input.classList.add('invalid');
+                    valid = false;
+                } else {
+                    input.classList.remove('invalid');
+                }
+            });
+
+            if (!terminos.checked) {
+                checkboxWrap.classList.add('invalid');
+                valid = false;
+            } else {
+                checkboxWrap.classList.remove('invalid');
+            }
+
+            if (!valid) return;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Remove invalid state on input
+        document.querySelectorAll('input').forEach(function(input) {
+            input.addEventListener('input', function() {
+                this.classList.remove('invalid');
+                document.getElementById('checkbox-wrap').classList.remove('invalid');
+            });
+        });
+    </script>
+</body>
+</html>
