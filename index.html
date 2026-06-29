@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock&Feller's — Beneficio de Cumpleaños</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
         @font-face {
             font-family: 'Gotham';
@@ -55,15 +56,11 @@
             width: 100%;
             max-width: 480px;
             z-index: 200;
-            /* backdrop-filter: blur(16px) brightness(0.7); */
-            /* -webkit-backdrop-filter: blur(16px) brightness(0.7); */
-            /* background: rgba(0, 0, 0, 0.25); */
             background: transparent;
             padding: 14px 24px;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* border-bottom: 1px solid rgba(196, 171, 75, 0.2); */
         }
 
         header img {
@@ -109,6 +106,7 @@
             font-size: 20px;
             margin-bottom: 10px;
             letter-spacing: 0;
+            animation: star-pulse 2s ease-in-out infinite;
         }
 
         .hero h1 {
@@ -169,7 +167,6 @@
         /* ── FORM SECTION ── */
         .form-section {
             background: var(--dark);
-            /* text-align: center; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -202,7 +199,7 @@
             font-weight: 400;
             font-size: 14px;
             outline: none;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
             color-scheme: dark;
             -webkit-appearance: none;
             appearance: none;
@@ -215,6 +212,7 @@
         .form-group input:focus {
             border-color: var(--gold);
             background: #141414;
+            box-shadow: 0 0 0 3px rgba(196, 171, 75, 0.12), 0 0 14px rgba(196, 171, 75, 0.2);
         }
 
         .form-group input[type="date"]::-webkit-calendar-picker-indicator {
@@ -264,6 +262,20 @@
             cursor: pointer;
             transition: background 0.2s;
             display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2.8s ease-in-out infinite;
+            pointer-events: none;
         }
 
         .btn-primary:hover,
@@ -572,6 +584,40 @@
             width: 20px;
         }
 
+        /* ── ANIMATIONS ── */
+        @keyframes star-pulse {
+            0%, 100% { transform: scale(1); }
+            50%       { transform: scale(1.2); }
+        }
+
+        @keyframes letter-pop {
+            0%   { opacity: 0; transform: scale(0.4); }
+            70%  { transform: scale(1.15); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes shimmer {
+            0%        { left: -100%; }
+            50%, 100% { left: 150%; }
+        }
+
+        .letter-pop {
+            opacity: 0;
+            animation: letter-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        /* ── FADE-IN SCROLL ── */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* ── SCROLLBAR ── */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #000; }
@@ -599,10 +645,9 @@
     </div>
 
     <!-- FORM -->
-    <section class="form-section">
+    <section class="form-section fade-in-section">
         <p class="section-label">Beneficio de cumpleañero</p>
         <h2 class="section-title">Disfrutá de una <br>small chocotorta R&F</h2>
-        <!-- <div class="section-divider"></div> -->
             <span class="hero-star">★</span>
         <form id="birthday-form" novalidate>
             <div class="form-group">
@@ -626,7 +671,7 @@
     </section>
 
     <!-- WHATSAPP -->
-    <section class="whatsapp-section">
+    <section class="whatsapp-section fade-in-section">
         <p class="section-label">celebrá a lo grande</p>
         <h2 class="section-title">¿No recibiste<br>un regalo?</h2>
         <div class="section-divider" style="margin: 0 auto 28px;"></div>
@@ -654,7 +699,7 @@
     </section>
 
     <!-- SHOP -->
-    <section class="shop-section">
+    <section class="shop-section fade-in-section">
         <p class="section-label">Merch exclusivo</p>
         <h2 class="section-title">R&F Shop</h2>
         <div class="section-divider" style="margin: 0 auto 28px;"></div>
@@ -677,7 +722,7 @@
     </section>
 
     <!-- FOOTER -->
-    <footer>
+    <footer class="fade-in-section">
         <div class="footer-logo-wrap">
             <img src="logo.png" alt="Rock&Feller's">
         </div>
@@ -703,19 +748,64 @@
     </div>
 
     <script>
-        const form = document.getElementById('birthday-form');
-        const modal = document.getElementById('modal');
-        const closeBtn = document.getElementById('modal-close-btn');
+        // ── 1. CONFETTI AL CARGAR ──
+        window.addEventListener('load', function() {
+            var duration = 3500;
+            var end = Date.now() + duration;
+            var colors = ['#c4ab4b', '#ffffff', '#cc2200'];
+            (function frame() {
+                confetti({ particleCount: 3, angle: 60,  spread: 55, origin: { x: 0 }, colors: colors });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        });
+
+        // ── 2. TÍTULO "HAPPY BIRTHDAY!" LETRA POR LETRA ──
+        (function() {
+            var totalLetters = 0;
+            document.querySelectorAll('.hero h1 span').forEach(function(wordSpan) {
+                var text = wordSpan.textContent;
+                wordSpan.textContent = '';
+                text.split('').forEach(function(letter, i) {
+                    var span = document.createElement('span');
+                    span.textContent = letter;
+                    span.style.display = 'inline-block';
+                    span.style.animationDelay = (totalLetters + i) * 0.09 + 's';
+                    span.classList.add('letter-pop');
+                    wordSpan.appendChild(span);
+                });
+                totalLetters += text.length;
+            });
+        })();
+
+        // ── 3. FADE-IN CON SCROLL (IntersectionObserver) ──
+        var fadeObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.fade-in-section').forEach(function(el) {
+            fadeObserver.observe(el);
+        });
+
+        // ── 4. FORMULARIO ──
+        var form = document.getElementById('birthday-form');
+        var modal = document.getElementById('modal');
+        var closeBtn = document.getElementById('modal-close-btn');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            let valid = true;
+            var valid = true;
 
-            const nombre = document.getElementById('nombre');
-            const fecha = document.getElementById('fecha');
-            const email = document.getElementById('email');
-            const terminos = document.getElementById('terminos');
-            const checkboxWrap = document.getElementById('checkbox-wrap');
+            var nombre = document.getElementById('nombre');
+            var fecha  = document.getElementById('fecha');
+            var email  = document.getElementById('email');
+            var terminos     = document.getElementById('terminos');
+            var checkboxWrap = document.getElementById('checkbox-wrap');
 
             [nombre, fecha, email].forEach(function(input) {
                 if (!input.value.trim()) {
@@ -734,6 +824,14 @@
             }
 
             if (!valid) return;
+
+            // ── 5. CONFETTI AL ENVIAR ──
+            confetti({
+                particleCount: 140,
+                spread: 90,
+                origin: { y: 0.6 },
+                colors: ['#c4ab4b', '#ffffff', '#cc2200']
+            });
 
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -754,7 +852,6 @@
             if (e.key === 'Escape') closeModal();
         });
 
-        // Remove invalid state on input
         document.querySelectorAll('input').forEach(function(input) {
             input.addEventListener('input', function() {
                 this.classList.remove('invalid');
@@ -762,13 +859,13 @@
             });
         });
 
-        // Carousel
+        // ── CAROUSEL ──
         document.querySelectorAll('[data-carousel]').forEach(function(el) {
-            var track = el.querySelector('.carousel-track');
-            var dots = el.querySelectorAll('.carousel-dot');
-            var total = dots.length;
+            var track   = el.querySelector('.carousel-track');
+            var dots    = el.querySelectorAll('.carousel-dot');
+            var total   = dots.length;
             var current = 0;
-            var startX = 0;
+            var startX  = 0;
             var timer;
 
             function goTo(n) {
