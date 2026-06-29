@@ -55,14 +55,15 @@
             width: 100%;
             max-width: 480px;
             z-index: 200;
-            backdrop-filter: blur(16px) brightness(0.7);
-            -webkit-backdrop-filter: blur(16px) brightness(0.7);
-            background: rgba(0, 0, 0, 0.25);
+            /* backdrop-filter: blur(16px) brightness(0.7); */
+            /* -webkit-backdrop-filter: blur(16px) brightness(0.7); */
+            /* background: rgba(0, 0, 0, 0.25); */
+            background: transparent;
             padding: 14px 24px;
             display: flex;
             justify-content: center;
             align-items: center;
-            border-bottom: 1px solid rgba(196, 171, 75, 0.2);
+            /* border-bottom: 1px solid rgba(196, 171, 75, 0.2); */
         }
 
         header img {
@@ -140,7 +141,7 @@
             font-family: 'Gotham', sans-serif;
             font-weight: 700;
             font-size: 10px;
-            letter-spacing: 3px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             color: var(--gold);
             margin-bottom: 8px;
@@ -252,13 +253,13 @@
         .btn-primary {
             width: 100%;
             background: var(--gold);
-            color: #000;
+            color: #ffffff;
             border: none;
             padding: 17px;
             font-family: 'Gotham', sans-serif;
             font-weight: 700;
             font-size: 12px;
-            letter-spacing: 3px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             cursor: pointer;
             transition: background 0.2s;
@@ -300,7 +301,7 @@
             font-family: 'Gotham', sans-serif;
             font-weight: 700;
             font-size: 11px;
-            letter-spacing: 2.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             text-decoration: none;
             cursor: pointer;
@@ -336,12 +337,12 @@
         .btn-shop {
             display: inline-block;
             background: var(--gold);
-            color: #000;
+            color: #ffffff;
             padding: 17px 36px;
             font-family: 'Gotham', sans-serif;
             font-weight: 700;
             font-size: 11px;
-            letter-spacing: 3px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             text-decoration: none;
             transition: background 0.2s;
@@ -580,9 +581,9 @@
 <body>
 
     <!-- HEADER -->
-    <!-- <header>
+    <header>
         <img src="logo.png" alt="Rock&Feller's">
-    </header> -->
+    </header>
 
     <!-- HERO -->
     <div class="hero">
@@ -601,7 +602,8 @@
     <section class="form-section">
         <p class="section-label">Beneficio de cumpleañero</p>
         <h2 class="section-title">Disfrutá de una <br>small chocotorta R&F</h2>
-        <div class="section-divider"></div>
+        <!-- <div class="section-divider"></div> -->
+            <span class="hero-star">★</span>
         <form id="birthday-form" novalidate>
             <div class="form-group">
                 <label for="nombre">Nombre y Apellido</label>
@@ -625,15 +627,15 @@
 
     <!-- WHATSAPP -->
     <section class="whatsapp-section">
-        <p class="section-label">Regalo pendiente</p>
+        <p class="section-label">celebrá a lo grande</p>
         <h2 class="section-title">¿No recibiste<br>un regalo?</h2>
         <div class="section-divider" style="margin: 0 auto 28px;"></div>
         <p>Enviale un mensaje a la persona que te debe una R&F Gift Card.</p>
         <div class="carousel" data-carousel>
             <div class="carousel-track">
                 <div class="carousel-slide"><img src="Gift Card.png" alt=""></div>
-                <div class="carousel-slide"><img src="Gift Card.png" alt=""></div>
-                <div class="carousel-slide"><img src="Gift Card.png" alt=""></div>
+                <div class="carousel-slide"><img src="black.png" alt=""></div>
+                <div class="carousel-slide"><img src="classic.png" alt=""></div>
             </div>
             <div class="carousel-dots">
                 <button class="carousel-dot active" aria-label="Imagen 1"></button>
@@ -653,13 +655,13 @@
 
     <!-- SHOP -->
     <section class="shop-section">
-        <p class="section-label">Tienda oficial</p>
+        <p class="section-label">Merch exclusivo</p>
         <h2 class="section-title">R&F Shop</h2>
         <div class="section-divider" style="margin: 0 auto 28px;"></div>
         <p>Conseguí todo sobre Rock&Feller's</p>
         <div class="carousel" data-carousel>
             <div class="carousel-track">
-                <div class="carousel-slide"><img src="carousel-shop-1.jpg" alt=""></div>
+                <div class="carousel-slide"><img src="europaris.jpg" alt=""></div>
                 <div class="carousel-slide"><img src="carousel-shop-2.jpg" alt=""></div>
                 <div class="carousel-slide"><img src="carousel-shop-3.jpg" alt=""></div>
             </div>
@@ -695,7 +697,7 @@
             <span class="modal-star">★</span>
             <h2 id="modal-title">Happy Birthday!</h2>
             <div class="modal-rule"></div>
-            <p>Te obsequiamos una <strong>small chocotorta</strong> para que disfrutes de tu día especial. Notifica a tu camarero.</p>
+            <p>Te obsequiamos una <strong>small chocotorta</strong> para que disfrutes de tu día especial. Notifica a tu camarero que contas con el beneficio.</p>
             <button class="modal-close" id="modal-close-btn">¡Muchas gracias!</button>
         </div>
     </div>
