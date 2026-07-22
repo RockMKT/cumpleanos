@@ -188,7 +188,8 @@
 
         .form-group input[type="text"],
         .form-group input[type="email"],
-        .form-group input[type="date"] {
+        .form-group input[type="date"],
+        .form-group select {
             width: 100%;
             background: #111;
             border: 1px solid #2a2a2a;
@@ -205,13 +206,27 @@
             appearance: none;
         }
 
+        .form-group select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c4ab4b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 14px;
+            cursor: pointer;
+        }
+
+        .form-group select option {
+            background: #111;
+            color: #fff;
+        }
+
         .form-group input::placeholder {
             color: #444;
         }
 
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             border-color: var(--gold);
-            background: #141414;
+            background-color: #141414;
             box-shadow: 0 0 0 3px rgba(196, 171, 75, 0.12), 0 0 14px rgba(196, 171, 75, 0.2);
         }
 
@@ -281,55 +296,6 @@
         .btn-primary:hover,
         .btn-primary:active {
             background: var(--gold-hover);
-        }
-
-        /* ── WHATSAPP SECTION ── */
-        .whatsapp-section {
-            background: var(--black);
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .whatsapp-section .section-title {
-            font-size: 18px;
-        }
-
-        .whatsapp-section p {
-            font-size: 13px;
-            color: #777;
-            margin-bottom: 28px;
-            line-height: 1.7;
-        }
-
-        .btn-outline {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: transparent;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 15px 28px;
-            font-family: 'Gotham', sans-serif;
-            font-weight: 700;
-            font-size: 11px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-outline:hover,
-        .btn-outline:active {
-            background: var(--gold);
-            color: #000;
-        }
-
-        .btn-outline svg {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
         }
 
         /* ── SHOP SECTION ── */
@@ -560,7 +526,8 @@
         }
 
         /* ── VALIDATION STATES ── */
-        .form-group input.invalid {
+        .form-group input.invalid,
+        .form-group select.invalid {
             border-color: #b44;
         }
 
@@ -695,7 +662,7 @@
     <!-- FORM -->
     <section class="form-section fade-in-section">
         <p class="section-label">Beneficio de cumpleañero</p>
-        <h2 class="section-title">Disfrutá de una <br>small chocotorta R&F</h2>
+        <h2 class="section-title">Disfrutá de una <br>small chocotorta</h2>
             <span class="hero-star">★</span>
         <form id="birthday-form" novalidate>
             <div class="form-group">
@@ -710,63 +677,24 @@
                 <label for="email">Correo Electrónico</label>
                 <input type="email" id="email" name="email" placeholder="tu@email.com" required>
             </div>
+            <div class="form-group">
+                <label for="sucursal">Sucursal que visitas</label>
+                <select id="sucursal" name="sucursal" required>
+                    <option value="" disabled selected>Seleccioná una sucursal</option>
+                    <option value="R&F Oroño">R&F Oroño</option>
+                    <option value="R&F Alto Rosario">R&F Alto Rosario</option>
+                    <option value="R&F Pilar">R&F Pilar</option>
+                    <option value="R&F Savoy">R&F Savoy</option>
+                    <option value="R&F Unicenter">R&F Unicenter</option>
+                    <option value="R&F Palermo">R&F Palermo</option>
+                </select>
+            </div>
             <div class="checkbox-group" id="checkbox-wrap">
                 <input type="checkbox" id="terminos" name="terminos" required>
-                <label for="terminos">Acepto los <a href="#" id="terminos-link">términos y condiciones</a>, autorizo el tratamiento de mis datos personales y quiero recibir novedades y promociones de Rock&Feller's por correo electrónico.</label>
+                <label for="terminos">Acepto los <a href="#" id="terminos-link">términos y condiciones</a> y quiero recibir novedades y promociones de Rock&Feller's.</label>
             </div>
             <button type="submit" class="btn-primary">Accedé a tu obsequio</button>
         </form>
-    </section>
-
-    <!-- WHATSAPP -->
-    <!-- <section class="whatsapp-section fade-in-section">
-        <p class="section-label">celebrá a lo grande</p>
-        <h2 class="section-title">¿No recibiste<br>un regalo?</h2>
-        <div class="section-divider" style="margin: 0 auto 28px;"></div>
-        <p>Enviale un mensaje a la persona que te debe una R&F Gift Card.</p>
-        <div class="carousel" data-carousel>
-            <div class="carousel-track">
-                <div class="carousel-slide"><img src="Gift Card.png" alt=""></div>
-                <div class="carousel-slide"><img src="black.png" alt=""></div>
-                <div class="carousel-slide"><img src="classic.png" alt=""></div>
-            </div>
-            <div class="carousel-dots">
-                <button class="carousel-dot active" aria-label="Imagen 1"></button>
-                <button class="carousel-dot" aria-label="Imagen 2"></button>
-                <button class="carousel-dot" aria-label="Imagen 3"></button>
-            </div>
-        </div>
-        <a class="btn-outline"
-           href="https://wa.me/?text=Hola%20%F0%9F%91%8B%20Te%20recuerdo%20amablemente%20que%20me%20deb%C3%A9s%20una%20Rock%26Feller%27s%20Gift%20Card%20%F0%9F%8E%82%0A%0ANo%20es%20urgente.%20Es%20MUY%20urgente.%20%F0%9F%9A%A8%0A%0A%F0%9F%91%89%20https%3A%2F%2Frockandfellers.com.ar%2Fgift-cards%2Fgift"
-           target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            Enviar mensaje
-        </a>
-    </section> -->
-
-    <!-- SHOP -->
-    <section class="shop-section fade-in-section">
-        <p class="section-label">Merch exclusivo</p>
-        <h2 class="section-title">R&F Shop</h2>
-        <div class="section-divider" style="margin: 0 auto 28px;"></div>
-        <p>Conseguí todo sobre Rock&Feller's</p>
-        <div class="carousel" data-carousel>
-            <div class="carousel-track">
-                <div class="carousel-slide"><img src="europaris.jpg" alt=""></div>
-                <div class="carousel-slide"><img src="remeras.jpeg" alt=""></div>
-                <div class="carousel-slide"><img src="carousel-shop-3.jpg" alt=""></div>
-            </div>
-            <div class="carousel-dots">
-                <button class="carousel-dot active" aria-label="Imagen 1"></button>
-                <button class="carousel-dot" aria-label="Imagen 2"></button>
-                <button class="carousel-dot" aria-label="Imagen 3"></button>
-            </div>
-        </div>
-        <a href="https://rockandfellers.com.ar" target="_blank" rel="noopener" class="btn-shop">
-            Visitar tienda
-        </a>
     </section>
 
     <!-- FOOTER -->
@@ -790,8 +718,7 @@
             <span class="modal-star">★</span>
             <h2 id="modal-title">Happy Birthday!</h2>
             <div class="modal-rule"></div>
-            <p>Te obsequiamos una <strong>small chocotorta</strong> para que disfrutes de tu día especial. Notifica a tu camarero que contas con el beneficio.</p>
-            <button class="modal-close" id="modal-close-btn">¡Muchas gracias!</button>
+            <p>Te obsequiamos una <strong>Small Chocotorta</strong> para que disfrutes de tu día especial. Mantén abierta esta pantalla y muéstrasela a tu camarero para validar el beneficio</p>
         </div>
     </div>
 
@@ -802,7 +729,7 @@
             <div class="modal-rule"></div>
             <div class="terminos-modal-body">
                 <p><strong>1. Responsable</strong><br>
-                El responsable de la base de datos es [RAZÓN SOCIAL], CUIT [XX-XXXXXXXX-X], con domicilio en [DOMICILIO LEGAL COMPLETO], titular de la marca Rock&Feller's.</p>
+                El responsable de la base de datos es MFK SA CUIT 30-71769007-5, con domicilio en AVENIDA LIBERTADOR 5936 PISO 14A, C.</p>
 
                 <p><strong>2. Datos que recolectamos</strong><br>
                 Al completar el formulario nos proporcionás tu nombre y apellido, tu fecha de cumpleaños y tu dirección de correo electrónico. La entrega de estos datos es voluntaria y necesaria para acceder al beneficio.</p>
@@ -811,21 +738,20 @@
                 Utilizamos tus datos para verificar y registrar la entrega del beneficio de cumpleaños, y para evitar su duplicación. Además, utilizamos tu correo electrónico y tu fecha de cumpleaños para enviarte novedades, promociones e invitaciones a eventos de Rock&Feller's.</p>
 
                 <p><strong>4. Consentimiento y baja</strong><br>
-                Al aceptar estos términos prestás tu consentimiento libre, expreso e informado para el tratamiento de tus datos personales, en los términos del artículo 5° de la Ley N° 25.326. Podés revocar el consentimiento para recibir comunicaciones promocionales en cualquier momento, sin costo alguno, utilizando el enlace de baja incluido al pie de cada correo o escribiendo a [EMAIL DE CONTACTO]. La baja se hace efectiva dentro de las 48 horas hábiles.</p>
+                Al aceptar estos términos prestás tu consentimiento libre, expreso e informado para el tratamiento de tus datos personales, en los términos del artículo 5° de la Ley N° 25.326. Podés revocar el consentimiento para recibir comunicaciones promocionales en cualquier momento, sin costo alguno, utilizando el enlace de baja incluido al pie de cada correo o escribiendo a sugerencias@rockandfellers.com.ar. La baja se hace efectiva dentro de las 48 horas hábiles.</p>
 
                 <p><strong>5. Conservación y transferencia</strong><br>
                 Tus datos se conservan mientras dure tu suscripción y se almacenan en servidores de proveedores de servicios de envío de correo electrónico, que pueden estar ubicados fuera de la República Argentina. Rock&Feller's no vende ni cede tus datos a terceros con fines comerciales.</p>
 
                 <p><strong>6. Condiciones del beneficio</strong><br>
-                El beneficio consiste en una small chocotorta R&F y se entrega en el momento, en el local, al completar el formulario. Es válido una vez por persona y por año, únicamente para el titular de los datos, y está sujeto a disponibilidad. No es acumulable con otras promociones, no es canjeable por dinero ni transferible. Rock&Feller's podrá solicitar la exhibición de documento de identidad a fin de verificar la fecha de cumpleaños declarada. Rock&Feller's se reserva el derecho de modificar o discontinuar el beneficio en cualquier momento.</p>
+                El beneficio consiste en una small chocotorta y se entrega en el momento, en el local, al completar el formulario. Para acceder, el titular deberá realizar un consumo de productos correspondientes al servicio de almuerzo y/o cena. La compra exclusiva de bebidas, cafetería u otros productos fuera de estos servicios no habilita el beneficio. Es válido una vez por persona y por año, únicamente para el titular de los datos, y está sujeto a disponibilidad. No es acumulable con otras promociones, no es canjeable por dinero ni transferible. Rock&Feller's podrá solicitar la exhibición de documento de identidad a fin de verificar la fecha de cumpleaños declarada. Rock&Feller's se reserva el derecho de modificar o discontinuar el beneficio en cualquier momento.</p>
 
                 <p><strong>7. Derechos del titular</strong><br>
-                El titular de los datos personales tiene la facultad de ejercer el derecho de acceso a los mismos en forma gratuita a intervalos no inferiores a seis meses, salvo que se acredite un interés legítimo al efecto, conforme lo establecido en el artículo 14, inciso 3 de la Ley N° 25.326. También podés solicitar la rectificación, actualización o supresión de tus datos escribiendo a [EMAIL DE CONTACTO]. La Agencia de Acceso a la Información Pública, en su carácter de Órgano de Control de la Ley N° 25.326, tiene la atribución de atender las denuncias y reclamos que interpongan quienes resulten afectados en sus derechos por incumplimiento de las normas vigentes en materia de protección de datos personales.</p>
+                El titular de los datos personales tiene la facultad de ejercer el derecho de acceso a los mismos en forma gratuita a intervalos no inferiores a seis meses, salvo que se acredite un interés legítimo al efecto, conforme lo establecido en el artículo 14, inciso 3 de la Ley N° 25.326. También podés solicitar la rectificación, actualización o supresión de tus datos escribiendo a sugerencias@rockandfellers.com.ar. La Agencia de Acceso a la Información Pública, en su carácter de Órgano de Control de la Ley N° 25.326, tiene la atribución de atender las denuncias y reclamos que interpongan quienes resulten afectados en sus derechos por incumplimiento de las normas vigentes en materia de protección de datos personales.</p>
 
                 <p><strong>8. Aceptación</strong><br>
                 El uso del formulario implica la aceptación plena de estos términos.</p>
 
-                <p class="terminos-modal-date">Última actualización: [FECHA]</p>
             </div>
             <button class="modal-close" id="terminos-modal-close-btn">Cerrar</button>
         </div>
@@ -888,10 +814,11 @@
             var nombre = document.getElementById('nombre');
             var fecha  = document.getElementById('fecha');
             var email  = document.getElementById('email');
+            var sucursal = document.getElementById('sucursal');
             var terminos     = document.getElementById('terminos');
             var checkboxWrap = document.getElementById('checkbox-wrap');
 
-            [nombre, fecha, email].forEach(function(input) {
+            [nombre, fecha, email, sucursal].forEach(function(input) {
                 if (!input.value.trim()) {
                     input.classList.add('invalid');
                     valid = false;
