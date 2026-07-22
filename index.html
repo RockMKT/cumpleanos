@@ -459,6 +459,12 @@
             margin: 0 auto 32px;
         }
 
+        .modal-celebracion-img {
+            display: block;
+            width: calc(100% + 64px);
+            margin: 0 -32px -44px;
+        }
+
         .modal-close {
             background: var(--gold);
             color: #000;
@@ -719,6 +725,7 @@
             <h2 id="modal-title">Happy Birthday!</h2>
             <div class="modal-rule"></div>
             <p>Te obsequiamos una <strong>Small Chocotorta</strong> para que disfrutes de tu día especial. Mantén abierta esta pantalla y muéstrasela a tu camarero para validar el beneficio</p>
+            <img src="celebracion.png" alt="Celebración" class="modal-celebracion-img">
         </div>
     </div>
 
@@ -758,17 +765,19 @@
     </div>
 
     <script>
-        // ── 1. CONFETTI AL CARGAR ──
-        window.addEventListener('load', function() {
+        // ── 1. CONFETTI (ráfaga lateral continua) ──
+        function launchConfetti() {
             var duration = 3500;
             var end = Date.now() + duration;
             var colors = ['#c4ab4b', '#ffffff', '#cc2200'];
             (function frame() {
-                confetti({ particleCount: 3, angle: 60,  spread: 55, origin: { x: 0 }, colors: colors });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
+                confetti({ particleCount: 3, angle: 60,  spread: 55, origin: { x: 0 }, colors: colors, zIndex: 600 });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: colors, zIndex: 600 });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
-        });
+        }
+
+        window.addEventListener('load', launchConfetti);
 
         // ── 2. TÍTULO "HAPPY BIRTHDAY!" LETRA POR LETRA ──
         (function() {
@@ -805,7 +814,6 @@
         // ── 4. FORMULARIO ──
         var form = document.getElementById('birthday-form');
         var modal = document.getElementById('modal');
-        var closeBtn = document.getElementById('modal-close-btn');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -837,26 +845,10 @@
             if (!valid) return;
 
             // ── 5. CONFETTI AL ENVIAR ──
-            confetti({
-                particleCount: 140,
-                spread: 90,
-                origin: { y: 0.6 },
-                colors: ['#c4ab4b', '#ffffff', '#cc2200']
-            });
+            launchConfetti();
 
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
-        });
-
-        function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        closeBtn.addEventListener('click', closeModal);
-
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) closeModal();
         });
 
         // ── MODAL TÉRMINOS Y CONDICIONES ──
@@ -884,7 +876,6 @@
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeModal();
                 closeTerminosModal();
             }
         });
