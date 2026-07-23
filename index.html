@@ -541,6 +541,32 @@
             color: #b44;
         }
 
+        .form-error {
+            display: none;
+            color: #b44;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .form-error.visible {
+            display: block;
+        }
+
+        .form-honeypot {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         /* ── CAROUSEL ── */
         .carousel {
             position: relative;
@@ -699,7 +725,12 @@
                 <input type="checkbox" id="terminos" name="terminos" required>
                 <label for="terminos">Acepto los <a href="#" id="terminos-link">términos y condiciones</a> y quiero recibir novedades y promociones de Rock&Feller's.</label>
             </div>
-            <button type="submit" class="btn-primary">Accedé a tu obsequio</button>
+            <div class="form-honeypot" aria-hidden="true">
+                <label for="website">No completar</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <p class="form-error" id="form-error"></p>
+            <button type="submit" class="btn-primary" id="submit-btn">Accedé a tu obsequio</button>
         </form>
     </section>
 
@@ -724,7 +755,7 @@
             <span class="modal-star">★</span>
             <h2 id="modal-title">Happy Birthday!</h2>
             <div class="modal-rule"></div>
-            <p>Te obsequiamos una <strong>Small Chocotorta</strong> para que disfrutes de tu día especial. Mantén abierta esta pantalla y muéstrasela a tu camarero para validar el beneficio</p>
+            <p>Te obsequiamos una <strong>Small Chocotorta</strong> para que disfrutes de tu día especial. Mantén abierta esta pantalla y muéstrasela a tu camarero para validar el beneficio.</p>
             <img src="celebracion.png" alt="Celebración" class="modal-celebracion-img">
         </div>
     </div>
@@ -814,6 +845,18 @@
         // ── 4. FORMULARIO ──
         var form = document.getElementById('birthday-form');
         var modal = document.getElementById('modal');
+        var submitBtn = document.getElementById('submit-btn');
+        var formError = document.getElementById('form-error');
+
+        function showFormError(message) {
+            formError.textContent = message;
+            formError.classList.add('visible');
+        }
+
+        function hideFormError() {
+            formError.textContent = '';
+            formError.classList.remove('visible');
+        }
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -825,6 +868,7 @@
             var sucursal = document.getElementById('sucursal');
             var terminos     = document.getElementById('terminos');
             var checkboxWrap = document.getElementById('checkbox-wrap');
+            var website = document.getElementById('website');
 
             [nombre, fecha, email, sucursal].forEach(function(input) {
                 if (!input.value.trim()) {
@@ -844,11 +888,55 @@
 
             if (!valid) return;
 
-            // ── 5. CONFETTI AL ENVIAR ──
-            launchConfetti();
+            hideFormError();
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
 
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            fetch('/.netlify/functions/submit-birthday', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nombre: nombre.value.trim(),
+                    fecha: fecha.value,
+                    email: email.value.trim(),
+                    sucursal: sucursal.value,
+                    terminos: terminos.checked,
+                    website: website.value
+                })
+            })
+            .then(function(res) {
+                return res.json().then(function(data) {
+                    return { status: res.status, data: data };
+                });
+            })
+            .then(function(result) {
+                if (result.status === 200 && result.data.ok) {
+                    // ── 5. CONFETTI AL CONFIRMAR ──
+                    launchConfetti();
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                } else if (result.status === 409 && result.data.reason === 'already_claimed') {
+                    var nextDate = result.data.nextEligibleDate
+                        ? new Date(result.data.nextEligibleDate).toLocaleDateString('es-AR')
+                        : null;
+                    showFormError(
+                        nextDate
+                            ? 'Ya reclamaste tu beneficio de cumpleaños este año. Podés volver a hacerlo a partir del ' + nextDate + '.'
+                            : 'Ya reclamaste tu beneficio de cumpleaños este año.'
+                    );
+                } else if (result.status === 429) {
+                    showFormError('Demasiados intentos. Esperá un momento y volvé a intentarlo.');
+                } else {
+                    showFormError('No pudimos procesar tu solicitud. Intentá nuevamente en unos minutos.');
+                }
+            })
+            .catch(function() {
+                showFormError('No pudimos conectar con el servidor. Revisá tu conexión e intentá de nuevo.');
+            })
+            .finally(function() {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Accedé a tu obsequio';
+            });
         });
 
         // ── MODAL TÉRMINOS Y CONDICIONES ──

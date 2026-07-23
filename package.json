@@ -1,0 +1,9 @@
+{
+  "name": "beneficio-cumpleanos",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "@sendgrid/mail": "^8.1.4"
+  }
+}
