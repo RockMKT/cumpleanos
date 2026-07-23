@@ -858,6 +858,15 @@
             formError.classList.remove('visible');
         }
 
+        function isBirthdayToday(fechaValue) {
+            var parts = fechaValue.split('-');
+            if (parts.length !== 3) return false;
+            var now = new Date();
+            var nowMonth = String(now.getMonth() + 1).padStart(2, '0');
+            var nowDay = String(now.getDate()).padStart(2, '0');
+            return parts[1] === nowMonth && parts[2] === nowDay;
+        }
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             var valid = true;
@@ -889,6 +898,13 @@
             if (!valid) return;
 
             hideFormError();
+
+            if (fecha.value.trim() && !isBirthdayToday(fecha.value)) {
+                fecha.classList.add('invalid');
+                showFormError('Este beneficio solo se puede reclamar el día de tu cumpleaños.');
+                return;
+            }
+
             submitBtn.disabled = true;
             submitBtn.textContent = 'Enviando...';
 
@@ -924,6 +940,8 @@
                             ? 'Ya reclamaste tu beneficio de cumpleaños este año. Podés volver a hacerlo a partir del ' + nextDate + '.'
                             : 'Ya reclamaste tu beneficio de cumpleaños este año.'
                     );
+                } else if (result.status === 403 && result.data.reason === 'not_birthday') {
+                    showFormError('Este beneficio solo se puede reclamar el día de tu cumpleaños.');
                 } else if (result.status === 429) {
                     showFormError('Demasiados intentos. Esperá un momento y volvé a intentarlo.');
                 } else {

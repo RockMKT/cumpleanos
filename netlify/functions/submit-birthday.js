@@ -26,6 +26,18 @@ const RATE_LIMIT_PER_MINUTE = 5;
 const RATE_LIMIT_PER_HOUR = 20;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+function isBirthdayToday(fecha) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Argentina/Buenos_Aires',
+    month: '2-digit',
+    day: '2-digit'
+  }).formatToParts(new Date());
+  const month = parts.find(function (p) { return p.type === 'month'; }).value;
+  const day = parts.find(function (p) { return p.type === 'day'; }).value;
+  return fecha.slice(5) === (month + '-' + day);
+}
 
 function jsonResponse(statusCode, body) {
   return {
@@ -74,12 +86,16 @@ exports.handler = async function (event) {
 
   if (
     typeof nombre !== 'string' || !nombre.trim() ||
-    typeof fecha !== 'string' || !fecha.trim() ||
+    typeof fecha !== 'string' || !DATE_RE.test(fecha.trim()) ||
     typeof email !== 'string' || !EMAIL_RE.test(email.trim()) ||
     typeof sucursal !== 'string' || !ALL_SUCURSALES.includes(sucursal) ||
     !terminos
   ) {
     return jsonResponse(400, { ok: false, reason: 'invalid_input' });
+  }
+
+  if (!isBirthdayToday(fecha.trim())) {
+    return jsonResponse(403, { ok: false, reason: 'not_birthday' });
   }
 
   const cleanEmail = email.trim().toLowerCase();
