@@ -120,25 +120,28 @@ exports.handler = async function (event) {
   await sql`INSERT INTO submission_attempts (ip) VALUES (${ip})`;
 
   // ── Duplicado / elegibilidad (una vez por año, desde el aniversario del último envío) ──
-  const existing = await sql`
-    SELECT claimed_at FROM birthday_claims WHERE email = ${cleanEmail}
-  `;
-
-  if (existing.length > 0) {
-    const [{ next_eligible: nextEligible, eligible }] = await sql`
-      SELECT
-        (claimed_at::date + interval '1 year') AS next_eligible,
-        now() >= (claimed_at::date + interval '1 year') AS eligible
-      FROM birthday_claims WHERE email = ${cleanEmail}
-    `;
-    if (!eligible) {
-      return jsonResponse(409, {
-        ok: false,
-        reason: 'already_claimed',
-        nextEligibleDate: nextEligible
-      });
-    }
-  }
+  // Deshabilitado a pedido: se permite que el mismo correo reclame más de una vez por año
+  // (ej. un padre usa su propio correo para varios hijos). Se deja el código comentado
+  // por si se quiere restaurar el límite anual en el futuro.
+  // const existing = await sql`
+  //   SELECT claimed_at FROM birthday_claims WHERE email = ${cleanEmail}
+  // `;
+  //
+  // if (existing.length > 0) {
+  //   const [{ next_eligible: nextEligible, eligible }] = await sql`
+  //     SELECT
+  //       (claimed_at::date + interval '1 year') AS next_eligible,
+  //       now() >= (claimed_at::date + interval '1 year') AS eligible
+  //     FROM birthday_claims WHERE email = ${cleanEmail}
+  //   `;
+  //   if (!eligible) {
+  //     return jsonResponse(409, {
+  //       ok: false,
+  //       reason: 'already_claimed',
+  //       nextEligibleDate: nextEligible
+  //     });
+  //   }
+  // }
 
   const group = groupForSucursal(sucursal);
 
